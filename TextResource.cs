@@ -1,27 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
+using UnityEngine.UI;
 
 public class TextResource : MonoBehaviour
 {
-    [SerializeField]
-    TextMeshPro resourceText;
+    private RaycastHit hit;
+
+    GameObject talkPanel;
+    Text talk;
+
     private string resource = " ";
     
     // Start is called before the first frame update
     void Start()
     {
-        resourceText = GetComponent<TextMeshPro>();
+        talkPanel = GameObject.Find("TalkPanel");
+        talk = GameObject.Find("Text").GetComponent<Text>();
+
+        talkPanel.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        resourceText.text = resource;
+        talk.text = resource;
+
+
     }
 
-    //get / set 메소드 _ 추후 clickEvent에서 텍스트 접근용. 
     public void SetResource(string name) {
         resource = name;
     }
@@ -29,6 +36,10 @@ public class TextResource : MonoBehaviour
     public string GetResource() {
         return resource;
     }
+
+    public void SetPanelActive(bool flag) {
+        talkPanel.SetActive(flag);
+    } 
 
 }
 
