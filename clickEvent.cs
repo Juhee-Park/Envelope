@@ -1,55 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class clickEvent : MonoBehaviour
 { 
     private RaycastHit hit;
   
     private bool isPickUp = false; //열쇠 얻었는지에 대한 상태
-    private bool isPressed = false; //버튼이 눌렸는지에 대한 상태 
+    TextResource textResource;
 
-    private TextResource textResource;
-    void Start() {
+    private void Start()
+    {
+        textResource = GameObject.Find("Canvas").transform.Find("TalkPanel").GetComponent<TextResource>();
 
-        //텍스트 오브젝트 찾기.
-        textResource = GameObject.Find("Text1").GetComponent<TextResource>();
+        if (textResource == null) {
+            Debug.Log("Resource nulll");
+        }
+
     }
-
     // Update is called once per frame
     void Update()
     {
-       
 
-        // 기본 상호작용 용 _ 마우스를 누를 경우. _ 추가창(텍스트 오브젝트 이름) 출력 
-        if (Input.GetMouseButtonDown(0))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit))
-            {
-                Debug.Log("Mouse button Down");
-
-                //텍스트 란 오브젝트 이름으로 설정, 텍스트 위치는 클릭 위치, 텍스트 활성화
-                textResource.SetResource(hit.transform.gameObject.name);
-                textResource.transform.position = hit.point;
-                textResource.gameObject.SetActive(true);
-        
-            }
-        }
-
-        //물체 클릭 할 경우. (완전히) 
+        //물체 클릭 할 경우.
         if (Input.GetMouseButtonUp(0))
         {
             Debug.Log("Mouse button Up");
 
-            //텍스트 비활성화
-            textResource.gameObject.SetActive(false);
-            textResource.SetResource("");
-
             //마우스 포지션 취득해서 대입
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
+
+            /*
+             //실험용 대입 코드.
             //마우스 포지션에 ray 던져서 물체 인식 시 hit에 넣음.
             if (Physics.Raycast(ray, out hit))
             {
@@ -65,36 +48,85 @@ public class clickEvent : MonoBehaviour
                     //먹은 상태로 변경. 
                     isPickUp = true;
 
+                    textResource.SetResource("열쇠를 획득하였습니다!");
+                    textResource.SetPanelActive(true);
+
+                    Invoke("setHide", 1.75f);
 
                     //먹은 아이템 화면 상 삭제. 
                     Destroy(hit.transform.gameObject);
 
                 }
-                //버튼을 누를 경우 ~ 상호작용. 오브젝트 이름에 button이 있을 경우.
-                else if (hit.transform.gameObject.name.Contains("button"))
-                {
-                    Debug.Log("click button");
-
-                    isPressed = !isPressed; // 버튼 누르고, 해제하고.
-
-                    //아래에 버튼을 클릭할 경우 _ 버튼이 눌리는 작용 외 추가 상호작용할 내용 추가
-
-                }
                 //기타 상호작용.
-                else
-                {
-                    //열쇠 얻은 후, 타 오브젝트 클릭 시 열쇠 상태가 유지 되는지 확인용
-                    /* if (isPickUp)
-                        {
-                            Debug.Log("pick up true");
-                        }
-                        else {
-                            Debug.Log("pick up false");
-                        }*/
+                else {
+                    textResource.SetResource(hit.transform.gameObject.name);
+                    textResource.SetPanelActive(true);
+
+                    Invoke("setHide", 1.75f);
 
                 }
-
                 
+            }
+            */
+            if (Physics.Raycast(ray, out hit))
+            {
+
+                switch (hit.transform.gameObject.name) {
+                    case "Locker1" :
+                    case "Locker2" :
+                        textResource.SetResource("공동락커이다. 쓸모있는 물건은 보이지 않는다");
+                        textResource.SetPanelActive(true);
+                        Invoke("setHide", 2.75f);
+                        break;
+                    case "Box":
+                        //먹은 상태로 변경. 
+                        isPickUp = true;
+                        textResource.SetResource("열쇠가 들어있다. (열쇠를 획득)");
+                        textResource.SetPanelActive(true);
+                        Invoke("setHide", 2.75f);
+
+                        //먹은 아이템 화면 상 삭제. 
+                        Destroy(hit.transform.gameObject);
+                        break;
+                    case "Ladder":
+                        textResource.SetResource("사다리다");
+                        textResource.SetPanelActive(true);
+                        Invoke("setHide", 2.75f);
+                        break;
+
+                    case "Left_ele":
+                    case "Right_ele":
+                        textResource.SetResource("전기조절장치이다");
+                        textResource.SetPanelActive(true);
+                        Invoke("setHide", 2.75f);
+                        break;
+                    case "Blue1":
+                    case "Blue2":
+                        textResource.SetResource("쓸모있어보이지 않는다");
+                        textResource.SetPanelActive(true);
+                        Invoke("setHide", 2.75f);
+                        break;
+                    case "Book":
+                        textResource.SetResource("잠수함 일지이다.");
+                        textResource.SetPanelActive(true);
+                        Invoke("setHide", 2.75f);
+                        break;
+                    case "Bed1":
+                    case "Bed2":
+                    case "Bed3":
+                    case "Bed4":
+                        textResource.SetResource("침대이다.");
+                        textResource.SetPanelActive(true);
+                        Invoke("setHide", 2.75f);
+                        break;
+                    //실험용 코드2
+                    case "tf":
+                        textResource.SetResource("침대이다.");
+                        textResource.SetPanelActive(true);
+                        Invoke("setHide", 2.75f);
+                        break;
+                }
+
             }
         }
   
@@ -104,8 +136,7 @@ public class clickEvent : MonoBehaviour
         return isPickUp;
     }
 
-    public bool getIsPressed()
-    {
-        return isPressed;
+    private void setHide() {
+        textResource.SetPanelActive(false);
     }
 }
