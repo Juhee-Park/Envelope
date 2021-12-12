@@ -30,47 +30,11 @@ public class clickEvent : MonoBehaviour
             //마우스 포지션 취득해서 대입
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-
-            /*
-             //실험용 대입 코드.
-            //마우스 포지션에 ray 던져서 물체 인식 시 hit에 넣음.
             if (Physics.Raycast(ray, out hit))
             {
-
-                //클릭한 게임 오브젝트 확인용 로그 찍기
-                Debug.Log(hit.transform.gameObject.name);
-
-                //상호작용할 오브젝트_ 이름으로 인식 (열쇠는 Key라 가정.)
-                if (hit.transform.gameObject.name == "Key")
-                {
-                    Debug.Log("click Key");
-
-                    //먹은 상태로 변경. 
-                    isPickUp = true;
-
-                    textResource.SetResource("열쇠를 획득하였습니다!");
-                    textResource.SetPanelActive(true);
-
-                    Invoke("setHide", 1.75f);
-
-                    //먹은 아이템 화면 상 삭제. 
-                    Destroy(hit.transform.gameObject);
-
-                }
-                //기타 상호작용.
-                else {
-                    textResource.SetResource(hit.transform.gameObject.name);
-                    textResource.SetPanelActive(true);
-
-                    Invoke("setHide", 1.75f);
-
-                }
                 
-            }
-            */
-            if (Physics.Raycast(ray, out hit))
-            {
-
+                Debug.Log(hit.transform.gameObject.name);
+                
                 switch (hit.transform.gameObject.name) {
                     case "Locker1" :
                     case "Locker2" :
@@ -119,15 +83,32 @@ public class clickEvent : MonoBehaviour
                         textResource.SetPanelActive(true);
                         Invoke("setHide", 2.75f);
                         break;
-                    //실험용 코드2
+                   //실험용 코드2
+                   case "Chair":
+                        textResource.SetResource("의자이다.");
+                        textResource.SetPanelActive(true);
+                        Invoke("setHide", 2.75f);
+                        break;
+                   
                     case "tf":
                         textResource.SetResource("침대이다.");
+                        textResource.SetPanelActive(true);
+                        Invoke("setHide", 2.75f);
+                        break;
+                    case "mybutton":
+                        textResource.SetResource("침대이다2.");
+                        textResource.SetPanelActive(true);
+                        Invoke("setHide", 2.75f);
+                        break;
+                    case "Key":
+                        textResource.SetResource("침대이다.3");
                         textResource.SetPanelActive(true);
                         Invoke("setHide", 2.75f);
                         break;
                 }
 
             }
+            
         }
   
     }
