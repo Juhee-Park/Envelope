@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class TextResource : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class TextResource : MonoBehaviour
         talkPanel = GameObject.Find("TalkPanel");
         talk = GameObject.Find("Text").GetComponent<Text>();
 
-        talkPanel.SetActive(false);
+        talkPanel.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -38,7 +39,7 @@ public class TextResource : MonoBehaviour
     }
 
     public void SetPanelActive(bool flag) {
-        talkPanel.SetActive(flag);
+        talkPanel.gameObject.SetActive(flag);
     } 
 
 }
