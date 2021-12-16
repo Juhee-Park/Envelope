@@ -8,7 +8,7 @@ public class TextResource : MonoBehaviour
 {
     private RaycastHit hit;
 
-    GameObject talkPanel;
+    Transform talkPanel;
     Text talk;
 
     private string resource = " ";
@@ -16,7 +16,7 @@ public class TextResource : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        talkPanel = GameObject.Find("TalkPanel");
+        talkPanel = GameObject.Find("Canvas").transform.Find("TalkPanel");
         talk = GameObject.Find("Text").GetComponent<Text>();
 
         talkPanel.gameObject.SetActive(false);
@@ -26,7 +26,7 @@ public class TextResource : MonoBehaviour
     void Update()
     {
         talk.text = resource;
-
+        Debug.Log("TR1 : " + GetResource());
 
     }
 
@@ -39,10 +39,8 @@ public class TextResource : MonoBehaviour
     }
 
     public void SetPanelActive(bool flag) {
+        Debug.Log("TR2 : " + GetResource());
         talkPanel.gameObject.SetActive(flag);
     } 
 
 }
-
-
- 
