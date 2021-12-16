@@ -105,6 +105,9 @@ public class clickEvent : MonoBehaviour
                         textResource.SetPanelActive(true);
                         Invoke("setHide", 2.75f);
                         break;
+                    case "default" : 
+                         Debug.Log(hit.transform.gameObject.name);
+                         break;
                 }
 
             }
